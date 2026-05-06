@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Anderson-ENT | ЕНТ Химия Биология</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 24px; color: #333; }
+        .header p { color: #666; font-size: 14px; margin-top: 5px; }
+        .progress-section {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        .progress-bar-container {
+            background: #e0e0e0;
+            border-radius: 25px;
+            height: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            height: 100%;
+            border-radius: 25px;
+            transition: width 0.3s ease;
+        }
+        .score-badge {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .tabs {
+            display: flex;
+            background: white;
+            margin: 15px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+        }
+        .tab.active { background: #667eea; color: white; }
+        .content { margin: 15px; }
+        .subject-page { display: none; }
+        .subject-page.active-page { display: block; }
+        .lesson-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .lesson-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .lesson-text { color: #555; font-size: 14px; margin-bottom: 10px; }
+        .video-link {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .quiz-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .quiz-options {
+            margin-top: 15px;
+            display: none;
+        }
+        .quiz-option {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .quiz-option.correct { background: #4CAF50; color: white; }
+        .quiz-option.wrong { background: #f44336; color: white; }
+        .feedback {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 10px;
+            display: none;
+        }
+        .bottom-stats {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🦷 Anderson-ENT</h1>
+    <p>Подготовка к ЕНТ | Химия · Биология · Анатомия</p>
+</div>
+
+<div class="progress-section">
+    <div class="progress-label"><span>📊 Прогресс до 140 баллов</span><span id="progressPercent">0%</span></div>
+    <div class="progress-bar-container"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="score-badge">⭐ Баллов: <span id="totalScore">0</span> / 140</div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" data-tab="chemistry">🧪 Химия</div>
+    <div class="tab" data-tab="biology">🧬 Биология</div>
+    <div class="tab" data-tab="anatomy">🦷 Анатомия</div>
+</div>
+
+<div class="content">
+    <div id="chemistry" class="subject-page active-page">
+        <div class="lesson-card">
+            <div class="lesson-title">🧪 Тема 1: Органическая химия</div>
+            <div class="lesson-text">Алканы: CₙH₂ₙ₊₂, Алкены: CₙH₂ₙ, Спирты, Кислоты.</div>
+            <a href="https://youtu.be/SEIwS7YqGfE" class="video-link" target="_blank">▶ Смотреть видео</a>
+            <button class="quiz-btn" data-lesson="chemistry1">📝 Тест (+10 баллов)</button>
+            <div id="quiz-chemistry1" class="quiz-options"></div>
+            <div id="feedback-chemistry1" class="feedback"></div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-title">🧪 Тема 2: Неорганическая химия</div>
+            <div class="lesson-text">Кислоты: HCl, H₂SO₄, Основания: NaOH, Соли: NaCl</div>
+            <a href="https://youtu.be/Hh_dTqsXqDc" class="video-link" target="_blank">▶ Смотреть видео</a>
+            <button class="quiz-btn" data-lesson="chemistry2">📝 Тест (+10 баллов)</button>
+            <div id="quiz-chemistry2" class="quiz-options"></div>
+            <div id="feedback-chemistry2" class="feedback"></div>
+        </div>
+    </div>
+
+    <div id="biology" class="subject-page">
+        <div class="lesson-card">
+            <div class="lesson-title">🧬 Тема 1: Цитология</div>
+            <div class="lesson-text">Ядро, митохондрии, рибосомы, ЭПС</div>
+            <a href="https://youtu.be/Hv0qF3JgY4w" class="video-link" target="_blank">▶ Смотреть видео</a>
+            <button class="quiz-btn" data-lesson="biology1">📝 Тест (+10 баллов)</button>
+            <div id="quiz-biology1" class="quiz-options"></div>
+            <div id="feedback-biology1" class="feedback"></div>
+        </div>
+        <div class="lesson-card">
+            <div class="lesson-title">🧬 Тема 2: Генетика</div>
+            <div class="lesson-text">Генотип, фенотип, законы Менделя</div>
+            <a href="https://youtu.be/7sQ6vD9GgYI" class="video-link" target="_blank">▶ Смотреть видео</a>
+            <button class="quiz-btn" data-lesson="biology2">📝 Тест (+10 баллов)</button>
+            <div id="quiz-biology2" class="quiz-options"></div>
+            <div id="feedback-biology2" class="feedback"></div>
+        </div>
+    </div>
+
+    <div id="anatomy" class="subject-page">
+        <div class="lesson-card">
+            <div class="lesson-title">🦷 Тема 1: Череп и челюстно-лицевая область</div>
+            <div class="lesson-text">Верхняя челюсть, нижняя челюсть, зубная формула 2123/2123</div>
+            <a href="https://youtu.be/VnGUhFkHn6Y" class="video-link" target="_blank">▶ Смотреть видео</a>
+            <button class="quiz-btn" data-lesson="anatomy1">📝 Тест (+10 баллов)</button>
+            <div id="quiz-anatomy1" class="quiz-options"></div>
+            <div id="feedback-anatomy1" class="feedback"></div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-stats">
+    <span>🔥 <span id="streak">0</span> дней</span>
+    <span>🏆 Уровень: <span id="level">Новичок</span></span>
+</div>
+
+<script>
+    const quizzes = {
+        chemistry1: { question: "Общая формула алканов?", options: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂"], correct: 1 },
+        chemistry2: { question: "Какое вещество основание?", options: ["HCl", "H₂SO₄", "NaOH"], correct: 2 },
+        biology1: { question: "Органоид для АТФ?", options: ["Рибосомы", "Ядро", "Митохондрии"], correct: 2 },
+        biology2: { question: "Закон Менделя 3:1?", options: ["1-й", "2-й", "3-й"], correct: 1 },
+        anatomy1: { question: "Зубов у взрослого?", options: ["28", "30", "32"], correct: 2 }
+    };
+
+    let totalScore = localStorage.getItem('ent_score') ? parseInt(localStorage.getItem('ent_score')) : 0;
+    let completed = localStorage.getItem('completed') ? JSON.parse(localStorage.getItem('completed')) : [];
+    let streak = localStorage.getItem('streak') ? parseInt(localStorage.getItem('streak')) : 0;
+
+    function updateUI() {
+        let percent = (totalScore / 140) * 100;
+        document.getElementById('progressFill').style.width = percent + '%';
+        document.getElementById('progressPercent').innerText = Math.floor(percent) + '%';
+        document.getElementById('totalScore').innerText = totalScore;
+        let level = totalScore >= 1050 ? "Грант 140" : totalScore >= 700 ? "Эксперт" : totalScore >= 350 ? "Профи" : "Новичок";
+        document.getElementById('level').innerText = level;
+        document.getElementById('streak').innerText = streak;
+        localStorage.setItem('ent_score', totalScore);
+        localStorage.setItem('completed', JSON.stringify(completed));
+    }
+
+    function showQuiz(id) {
+        let div = document.getElementById('quiz-' + id);
+        if (completed.includes(id)) { div.innerHTML = '<p>✅ Пройдено</p>'; div.style.display = 'block'; return; }
+        let q = quizzes[id];
+        let html = `<p>❓ ${q.question}</p>`;
+        q.options.forEach((opt, i) => { html += `<div class="quiz-option" data-opt="${i}">${opt}</div>`; });
+        div.innerHTML = html;
+        div.style.display = 'block';
+        document.querySelectorAll('#quiz-' + id + ' .quiz-option').forEach(opt => {
+            opt.onclick = function() {
+                if (completed.includes(id)) return;
+                let selected = parseInt(this.dataset.opt);
+                let fb = document.getElementById('feedback-' + id);
+                if (selected === q.correct) {
+                    this.classList.add('correct');
+                    totalScore += 10;
+                    completed.push(id);
+                    updateUI();
+                    fb.innerHTML = '✅ +10 баллов!';
+                    fb.style.background = '#d4edda';
+                    fb.style.display = 'block';
+                } else {
+                    this.classList.add('wrong');
+                    fb.innerHTML = `❌ Правильно: ${q.options[q.correct]}`;
+                    fb.style.background = '#f8d7da';
+                    fb.style.display = 'block';
+                }
+            };
+        });
+    }
+
+    document.querySelectorAll('.quiz-btn').forEach(btn => {
+        btn.onclick = () => showQuiz(btn.dataset.lesson);
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.onclick = function() {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.subject-page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(this.dataset.tab).classList.add('active-page');
+        };
+    });
+
+    updateUI();
+</script>
+</body>
+</html>
